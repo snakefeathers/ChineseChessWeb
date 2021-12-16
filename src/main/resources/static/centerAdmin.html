@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理</title>
+
+    <link rel="stylesheet" href="css/tools.css">
+    <style type="text/css">
+
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .left-case{
+            margin-left: 100px;
+        }
+        hr{
+            height: 6px;
+            size: 6px;
+            color: #9e2599;
+            width: 100%;
+        }
+        img{
+            height: 30px;
+            width: 30px;
+        }
+        table{
+            text-align: center;
+        }
+        table th{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://localhost:8080/CP">墨折羽</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav  nav-pills navbar-left left-case" >
+                <li class="active nav_ul_li"><a href="#" id="nav_ul_a1" onclick='aOnClick(this)'>棋局管理 </a></li>
+                <li class="nav_ul_li"><a href="#" onclick='aOnClick(this)'>帖子管理</a></li>
+                <li class="nav_ul_li"><a href="#"  onclick='aOnClick(this)'>评论管理</a></li>
+                <li class="nav_ul_li"><a href="#"  onclick='aOnClick(this)'>用户管理</a></li>
+                <li class="nav_ul_li"><a href="#" onclick='aOnClick(this)'>个人信息</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="login.html" id="nav_li_login">登录</a></li>
+                <li class="dropdown" id="nav_li_down" style="display: none">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       role="button" aria-haspopup="true" aria-expanded="false" id="userNameShow">用户名 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://localhost:8080/CP" id="btnPersonage">前台</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" id="nav_li_a_exit">退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+
+<!--棋局管理-->
+<div class="container">
+    <div class="row">
+        <table class="table text-center  table-hover table-bordered" id="boardTable">
+            <thead style="text-align: center;">
+                <th style="width: 10%;">初始棋局</th>
+                <th>红方用户</th>
+                <th>黑方用户</th>
+                <th style="width: 7%;">对局状态</th>
+                <th style="width: 13%;">创建时间</th>
+                <th style="width: 10%;">对局耗时</th>
+                <th style="width: 10%;">存储状态</th>
+                <th style="width: 15%;">操作</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>初始棋局</td>
+                <td>mosheyu</td>
+                <td>paomo</td>
+                <td>红方胜</td>
+                <td>2021-20-26</td>
+                <td>3:40</td>
+                <td>正常存储</td>
+                <td>
+<!--                    <button class="btn btn-default inviBtnUp" data-toggle="modal" data-target="#updateInvi">复盘</button>-->
+                    <button class="btn btn-danger inviBtnDel" onclick="boardDelete(this)">删除</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--帖子-->
+<div class="container">
+    <div class="row">
+        <table class="table  table-hover table-bordered" id="inviTable">
+            <thead>
+                <th style="width: 15%;">标题</th>
+                <th >正文</th>
+                <th style="width: 9%;">创建时间</th>
+                <th style="width: 7%;">状态</th>
+                <th style="width: 13%;">操作</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>墨折羽</td>
+                <td>这是一段正文</td>
+                <td>2021-20-26</td>
+                <td>已审核</td>
+                <td>
+                    <button class="btn btn-warning" onclick="invitationUpdate(this)">修改</button>
+                    <button class="btn btn-danger " onclick="invitationDelete(this)" >删除</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <a class="btn btn-default" style="position: fixed; bottom: 20px; right: 10vw;">添加公告</a>
+    </div>
+</div>
+<!--评论-->
+<div class="container">
+    <div class="row">
+        <table class="table  table-hover table-bordered" id="discussTable">
+            <thead>
+            <th style="width: 15%;">帖子标题</th>
+            <th >评论内容</th>
+            <th style="width: 9%;">创建时间</th>
+            <th style="width: 7%;">状态</th>
+            <th style="width: 13%;">操作</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>牛头滚</td>
+                <td>这是评论部分的正文</td>
+                <td>2021-20-26</td>
+                <td>正常</td>
+                <td>
+                    <button class="btn btn-danger inviBtnDel"  onclick="discussDelete(this)" >删除</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--用户管理-->
+<div class="container">
+    <div class="row">
+        <table class="table  table-hover table-bordered" id="userTable">
+            <thead>
+                    <th style="width: 10%;">用户名</th>
+                    <th style="width: 5%;">性别</th>
+                    <th style="width: 5%;">年龄</th>
+                    <th style="width: 5%;">头像</th>
+                    <th style="width: 25%;">简介</th>
+                    <th style="width: 9%;">创建时间</th>
+                    <th style="width: 9%;">用户类型</th>
+                    <th style="width: 7%;">状态</th>
+                    <th >操作</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>局外人</td>
+                <td>男</td>
+                <td>21</td>
+                <td><img src="photos/2.png"></td>
+                <td>水平一般，求轻虐。</td>
+                <td>2021-20-26</td>
+                <td>普通用户</td>
+                <td>正常</td>
+                <td>
+                    <button class="btn btn-default inviBtnUp" onclick="userUpdate(this)">修改密码</button>
+<!--                    <button class="btn btn-warning inviBtnUp"  onclick="userDisable(this)" >禁用</button>-->
+                    <button class="btn btn-danger inviBtnDel"  onclick="userDelete(this)" >删除</button>
+                </td>
+            </tr>
+            <tr>
+                <td>诚致</td>
+                <td>男</td>
+                <td>22</td>
+                <td><img src="photos/1.jpg"></td>
+                <td>资深中炮。</td>
+                <td>2021-20-26</td>
+                <td>普通用户</td>
+                <td>正常</td>
+                <td>
+                    <button class="btn btn-default inviBtnUp" data-toggle="modal" data-target="#updateInvi">修改密码</button>
+                    <button class="btn btn-warning inviBtnUp" data-toggle="modal" data-target="#updateInvi">禁用</button>
+                    <button class="btn btn-danger inviBtnDel"   onclick="userDelete(this)"  >删除</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <a class="btn btn-default" style="position: fixed; bottom: 20px; right: 10vw;">添加用户</a>
+    </div>
+</div>
+
+
+<!--个人-->
+<div class="container">
+    <div class="row" >
+        <div class="col-md-11 work_body fang" id="pagebody" >
+            <form class="form-horizontal">
+                <div class="form-group ">
+                    <label  class="col-md-2 control-label">头像：</label>
+                    <div class="col-sm-1" >
+                        <img src="photos/2.png" id="formUserPhoto">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label  class="col-md-2 control-label">用户名：</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" id="formUserName">--</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">类型：</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">管理员</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">性别：</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" data-value = 1    id="formUserSex">--</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">年龄：</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" id="formUserAge">--</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">简介：</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" id="formUserIntro">--</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-1 control-label"></label>
+                    <div class="col-sm-10">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#updateInfo">修改信息</button>
+                    </div>
+                </div>
+            </form>
+
+
+
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+<!--修改个人信息模态框-->
+<div class="modal fade " id="updateInfo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form action="http://localhost:8080/CP/admin/updateUser" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h4 class="modal-title" >修改信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group  ">
+                        <label  class="control-label">用户名:</label>
+                        <input type="text"  readonly class="form-control" name="userName" id="modalUserName">
+                    </div>
+                    <div class="form-group  ">
+                        <label  class="control-label">头像:</label>
+                        <input type="file" accept="image/jpeg" name="modalUserPhoto" id="modalUserPhoto">
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">性别:</label>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="sex" class="modalUserSex" value="0" checked>隐藏
+                            </label>
+                            <label>
+                                <input type="radio" name="sex" class="modalUserSex" value="1" > 男
+                            </label>
+                            <label>
+                                <input type="radio" name="sex" class="modalUserSex" value="2">女
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">年龄:</label>
+                        <input type="text"   class="form-control" name="age" id="modalUserAge">
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">简介:</label>
+                        <textarea type="text" class="form-control" name="introduction" id="modalUserIntro" style="height: 150px;" ></textarea>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">修改</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--修改帖子信息模态框-->
+<div class="modal fade " id="updateInvi">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form action="#" method="post" >
+                <div class="modal-header">
+                    <h4 class="modal-title" >修改帖子</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group  ">
+                        <label  class="control-label">标题:</label>
+                        <input type="text"  class="form-control" name="invitationTitle" id="inputTitle">
+                    </div>
+                    <div class="form-group  ">
+                        <label  class="control-label">文章:</label>
+                        <textarea class="form-control" style="height: 300px;" name="invitationBody" id="inputBody">
+
+                        </textarea>
+                    </div>
+                    <div class="form-group  " style="display: none;">
+                        <label  class="control-label">帖子ID:</label>
+                        <input type="text"  readonly class="form-control" name="invitationId" id="inputId">
+                    </div>
+
+
+
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="updateInvitation()">修改</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--修改帖子信息模态框-->
+<div class="modal fade " id="updateUserpassword">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form action="#" method="post" >
+                <div class="modal-header">
+                    <h4 class="modal-title" >修改帖子</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group  ">
+                        <label  class="col-md-2 control-label">用户名：</label>
+                        <input type="text"  class=" form-control" name="inputUserPassword" id="updateUserName">
+                    </div>
+
+                    <div class="form-group  " >
+                        <label  class=" control-label">用户密码:</label>
+                        <input type="text"  class=" form-control" name="inputUserPassword" id="inputUserPassword">
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="updateUser()">修改</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="hintShow" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="height: 100px; width: 300px; border: 5px red solid;" id="hintShowDiv">
+                <p class="" style="line-height: 70px;font-size: 30px;text-align: center; "id="hintShowText" >用户暂未登录</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+
+</body>
+
+
+<!--<link rel="stylesheet" href="http://localhost:8080/CP/bootstrap/css/bootstrap.min.css">-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/jquery.cookie.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/public.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/centerAdmin.js"></script>-->
+
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/public.js"></script>
+<script type="text/javascript" src="js/centerAdmin.js"></script>
+
+
+<script>
+
+    //初始化导航条的单击方法
+    active_nav();
+
+    document.querySelectorAll("nav ul:first-child.nav.navbar-nav li a")[0].click();
+
+    //修改个人信息模态框时初始化值
+    $('#updateInfo').on('shown.bs.modal', function () {
+        console.log("模态框展示");
+        $("#modalUserName")[0].value = $("#formUserName")[0].innerText;
+        // $("#modalUserSex")[0].value = 1;
+        $(".modalUserSex")[$("#formUserSex")[0].dataset.value].checked=true;
+        // $("#modalUserAge")[0].option[3].select = true;
+        $("#modalUserAge")[0].value = $("#formUserAge")[0].innerText;
+        $("#modalUserIntro")[0].value = $("#formUserIntro")[0].innerText;
+
+    })
+
+
+    if ($.cookie("userName") == null || $.cookie("userName") == undefined){
+        window.location.href = "http://localhost:8080/CP";
+    }
+    if ($.cookie("userName") != 'admin' ){
+        window.location.href = "http://localhost:8080/CP";
+    }
+
+
+</script>
+
+
+
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .left-case{
+            margin-left: 100px;
+        }
+        hr{
+            height: 6px;
+            size: 6px;
+            color: #9e2599;
+            width: 100%;
+        }
+        img{
+            height: 50px;
+            width: 50px;
+        }
+    </style>
+
+
+</head>
+<body>
+<nav class="navbar navbar-default fang">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://localhost:8080/CP">墨折羽</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav  nav-pills navbar-left left-case" >
+<!--                <li><a href="#">对局</a> </li>-->
+                <li><a href="#">个人</a> </li>
+                <li><a href="#">帖子</a> </li>
+                <li><a href="#">评论</a> </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://localhost:8080/CP/login.html" id="nav_li_login">登录</a></li>
+                <li class="dropdown" id="nav_li_down">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       role="button" aria-haspopup="true" aria-expanded="false" id="userNameShow">用户名 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="http://localhost:8080/CP" id="btnPersonage">前台</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" id="nav_li_a_exit">退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<!--个人-->
+<div class="container">
+    <div class="row" >
+        <div class="col-md-11 work_body fang" id="pagebody" >
+            <form class="form-horizontal">
+                <div class="form-group ">
+                    <label  class="col-md-2 control-label">头像：</label>
+                    <div class="col-sm-1" >
+                        <img src="photos/2.png" id="formUserPhoto">
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label  class="col-md-2 control-label">用户名：</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" id="formUserName">--</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">类型：</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">普通用户</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">性别：</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" data-value = 1    id="formUserSex">--</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">年龄：</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" id="formUserAge">--</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">简介：</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" id="formUserIntro">--</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  class="col-md-1 control-label"></label>
+                    <div class="col-sm-10">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#updateInfo">修改信息</button>
+                    </div>
+                </div>
+            </form>
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<!--帖子-->
+<div class="container">
+    <div class="row">
+        <table class="table  table-hover table-bordered" id="inviTable">
+            <thead>
+                 <th style="width: 15%;">标题</th>
+                 <th >正文</th>
+                 <th style="width: 9%;">创建时间</th>
+                 <th style="width: 7%;">状态</th>
+                 <th style="width: 13%;">操作</th>
+            </thead>
+            <tbody>
+                  <tr>
+                      <td>墨折羽</td>
+                      <td>这是一段正文</td>
+                      <td>2021-20-26</td>
+                      <td>已审核</td>
+                      <td>
+                          <button class="btn btn-default inviBtnUp" onclick="invitationUpdate(this)">修改</button>
+                          <button class="btn btn-danger inviBtnDel" onclick="invitationDelete(this)" >删除</button>
+                      </td>
+                  </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--评论-->
+<div class="container">
+    <div class="row">
+        <table class="table  table-hover table-bordered" id="discussTable">
+            <thead>
+            <th style="width: 15%;">帖子标题</th>
+            <th >评论内容</th>
+            <th style="width: 9%;">创建时间</th>
+            <th style="width: 7%;">状态</th>
+            <th style="width: 13%;">操作</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>牛头滚</td>
+                <td>这是评论部分的正文</td>
+                <td>2021-20-26</td>
+                <td>正常</td>
+                <td>
+                    <button class="btn btn-danger inviBtnDel"  onclick="discussDelete(this)" >删除</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--修改个人信息模态框-->
+<div class="modal fade " id="updateInfo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form action="http://localhost:8080/CP/user/update" method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h4 class="modal-title" >修改信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group  ">
+                        <label  class="control-label">用户名:</label>
+                        <input type="text"  readonly class="form-control" name="userName" id="modalUserName">
+                    </div>
+                    <div class="form-group  ">
+                        <label  class="control-label">头像:</label>
+                        <input type="file" accept="image/jpeg" name="modalUserPhoto" id="modalUserPhoto">
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">性别:</label>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="sex" class="modalUserSex" value="0" checked>隐藏
+                            </label>
+                            <label>
+                                <input type="radio" name="sex" class="modalUserSex" value="1" > 男
+                            </label>
+                            <label>
+                                <input type="radio" name="sex" class="modalUserSex" value="2">女
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">年龄:</label>
+                        <input type="text"   class="form-control" name="age" id="modalUserAge">
+<!--                        <select class="form-control" id="modalUserAge">-->
+<!--                            <option>111</option>-->
+<!--                            <option>112</option>-->
+<!--                            <option>113</option>-->
+<!--                            <option>114</option>-->
+<!--                            <option>115</option>-->
+<!--                        </select>-->
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">简介:</label>
+                        <textarea type="text" class="form-control" name="introduction" id="modalUserIntro" style="height: 150px;" ></textarea>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">修改</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--修改帖子信息模态框-->
+<div class="modal fade " id="updateInvi">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form action="#" method="post" >
+                <div class="modal-header">
+                    <h4 class="modal-title" >修改帖子</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group  ">
+                        <label  class="control-label">标题:</label>
+                        <input type="text"  class="form-control" name="invitationTitle" id="inputTitle">
+                    </div>
+                    <div class="form-group  ">
+                        <label  class="control-label">文章:</label>
+                        <textarea class="form-control" style="height: 300px;" name="invitationBody" id="inputBody">
+
+                        </textarea>
+                    </div>
+                    <div class="form-group  " style="display: none;">
+                        <label  class="control-label">帖子ID:</label>
+                        <input type="text"  readonly class="form-control" name="invitationId" id="inputId">
+                    </div>
+
+
+
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="updateInvitation()">修改</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<!--<link rel="stylesheet" href="http://localhost:8080/CP/bootstrap/css/bootstrap.min.css">-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/jquery.cookie.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/public.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/centerPersonage.js"></script>-->
+
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/public.js"></script>
+<script type="text/javascript" src="js/centerPersonage.js"></script>
+
+<script>
+
+    //初始化导航条的单击方法
+    active_nav();
+
+    //用window的onload事件，窗体加载完毕的时候
+    window.onload=function()
+    {
+        //读取用户名
+
+        //请求用户个人信息，并渲染页面
+
+        //模态框添加下拉框
+        // $("#modalUserAge").ad
+
+            jump(0);
+    }
+
+
+    //修改个人信息模态框时初始化值
+    $('#updateInfo').on('shown.bs.modal', function () {
+        console.log("模态框展示");
+        $("#modalUserName")[0].value = $("#formUserName")[0].innerText;
+        // $("#modalUserSex")[0].value = 1;
+        $(".modalUserSex")[$("#formUserSex")[0].dataset.value].checked=true;
+        // $("#modalUserAge")[0].option[3].select = true;
+        $("#modalUserAge")[0].value = $("#formUserAge")[0].innerText;
+        $("#modalUserIntro")[0].value = $("#formUserIntro")[0].innerText;
+
+
+    })
+
+
+    if ($.cookie("userName") == null || $.cookie("userName") == undefined){
+        window.location.href = "http://localhost:8080/CP";
+    }
+
+
+
+</script>
+
+</html>

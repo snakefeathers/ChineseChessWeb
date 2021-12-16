@@ -1,0 +1,56 @@
+/*.pieces{*/
+/*    background-color: white;*/
+/*    height: 10px;*/
+/*    width: 10px;*/
+/*    margin-left: 300px;*/
+/*    border-radius: 150px;*/
+/*    !*background-image: radial-gradient(#dbc537 55%, #6f5e00);*!*/
+/*    background-image: linear-gradient(120deg, #dbc537, #6f5e00);*/
+/*    border:1px #6f5e00 solid;*/
+/*    z-index: 99;*/
+/*    position: relative;*/
+/*    box-shadow: 10px 10px 10px #2b2501;*/
+/*}*/
+/*.pieces::before {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    left: 17px;*/
+/*    top: 17px;*/
+
+/*    border-radius: 135px;*/
+/*    height: 270px;*/
+/*    width: 270px;*/
+/*    background-color: #a19020;*/
+/*    border:1px #6f5615 solid;*/
+/*}*/
+/*.pieces::after{*/
+/*    content: "车";*/
+/*    font-family:"楷体";*/
+
+/*    text-shadow: 2px 2px 1px #eec470,*/
+/*    -2px -2px 1px #534901;*/
+
+/*    line-height: 225px;*/
+/*    font-size: 200px;*/
+/*    text-align:center;*/
+/*    color: red;*/
+/*    !*font-weight: 3px;*!*/
+/*    background-color: #a19020;*/
+/*    z-index: 10;*/
+/*    position: absolute;*/
+/*    left: 25px;*/
+/*    top: 25px;*/
+/*    height: 245px;*/
+/*    width: 245px;*/
+/*    border-radius: 125px;*/
+/*    border:5px red solid;*/
+/*    box-shadow:  5px 5px 5px #a19020,*/
+/*    -5px -5px 5px #a19020;*/
+/*}*/
+
+
+
+
+.airPie{
+
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>工作中心</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            height: 100vh;
+        }
+        .fang1 {
+            padding-right: 0px;
+            padding-left: 0px;
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+        .fang {
+            padding: 0px;
+            margin: 0px;
+        }
+        .list_group_cp{
+            padding-right: 0px;
+        }
+        .work_body{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default fang">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">墨折羽</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" id="nav_li_down">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       role="button" aria-haspopup="true" aria-expanded="false" id="userNameShow">用户名 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">前台</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" id="nav_li_a_exit">退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+
+
+<div class="row fang" >
+    <div class="col-md-1 list-group text-center list_group_cp fang" >
+        <a href="#" class="list-group-item">帖子</a>
+        <a href="#" class="list-group-item">评论</a>
+        <a href="#" class="list-group-item">咨询</a>
+        <a href="#" class="list-group-item">个人信息</a>
+    </div>
+    <div class="col-md-11 work_body fang" id="pagebody" >
+
+
+
+
+
+
+    </div>
+</div>
+
+
+
+
+</body>
+<script>
+
+
+    //修改元素高度，确保填充屏幕
+    let navheight = document.getElementsByClassName("navbar")[0].offsetHeight;
+    let widheight = document.body.clientHeight;
+    let pagebody = document.getElementById("pagebody");
+    pagebody.style.height = widheight-navheight+"px";
+</script>
+</html>

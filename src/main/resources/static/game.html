@@ -1,0 +1,795 @@
+View Code
+
+<!DOCTYPE html>
+<!--
+    begin   : 20130508
+    author  : Spider (利用js复习对象概念)
+    20130508: 背景 棋盘 双方 棋子等对象定义
+    20130509: 棋盘 双方 棋子等对象功能实现
+    20130510: 各对象之间功能交换实现游戏规则
+    20130511: ie9版本无变动
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>JS_HTML5_CSS3练习象棋游戏ie9</title>
+    <style type="text/css">
+        *
+        {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #bgdiv
+        {
+            border: 0px solid #00ff21;
+        }
+
+        #bg
+        {
+            background-image: url("bg.jpg");
+            width: 600px;
+            height: 600px;
+        }
+
+        #box
+        {
+            width: 495px;
+            height: 500px;
+            border: 1px solid rgba(0, 255, 33, 0.00);
+            top: 10px;
+            left: 10px;
+            position: absolute;
+            z-index: 1;
+            /*column-count: 9;*/
+        }
+
+        .di
+        {
+            margin: 3px;
+            width: 49px;
+            height: 44px;
+            border: 0px solid #ffd800;
+            float: left;
+            background-color: rgba(200, 193, 147, 0.00);
+            border-radius: 25px;
+        }
+
+        .qz
+        {
+            margin: 1px;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #00ffff;
+            border-radius: 25px;
+            font-size: 35px;
+            background-color: #bd8143;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: transform 1s, width 0.5s, height 0.5s,top 0.5s,left 0.5s,font-size 0.5s;
+            /*transition-delay: 0.5s;*/
+            box-shadow: 5px 5px 15px #888888;
+            font-family: 隶书;
+        }
+
+        .d3:hover
+        {
+            top: -3px;
+            left: -3px;
+        }
+
+        .d4
+        {
+            width: 46px;
+            height: 46px;
+            font-size: 40px;
+            transform: rotate(360deg);
+        }
+
+        .qz0
+        {
+            color: red;
+        }
+
+        .qz1
+        {
+            color: black;
+        }
+
+        .delz
+        {
+            width: 90px;
+            height: 500px;
+            border: 1px solid rgba(0, 255, 255, 0.00);
+            top: 10px;
+            left: 10px;
+            position: absolute;
+            z-index: 1;
+            /*column-count: 2;*/
+        }
+
+        .tiqi
+        {
+            border: 1px solid #00ff21;
+        }
+
+        @keyframes action01
+        {
+        }
+    </style>
+    <script type="text/javascript">
+        //B:工厂  E:事件  F:方法
+        //-------------------------
+        //快捷获取DOM
+        function A(id) {
+            if (typeof id == "string") {
+                return document.getElementById(id);
+            }
+            else if (typeof id == "object") {
+                return id;
+            }
+        }
+        //快捷获取DOM id名
+        function sA(id) {
+            if (typeof id == "string") {
+                return id;
+            }
+            else if (typeof id == "object") {
+                return id.id;
+            }
+        }
+        //alert
+        function al(s) {
+            alert(s);
+        }
+        //快捷parseInt
+        function pi(s) {
+            return parseInt(s);
+        }
+        //快捷parseFloat
+        function pf(s) {
+            return parseFloat(s);
+        }
+        //快捷Number
+        function nb(s) {
+            return Number(s);
+        }
+        //取element的viewport(可视区域)坐标
+        function viewtblr(id) {
+            return A(id).getBoundingClientRect();
+        }
+
+        //车
+        function ms0(ts) {
+            var dq = ts.dqwz;
+            var re = ts.lzwz;
+            //上
+            for (var i = dq - 9 ; i >= 0; i -= 9) {
+                var ffh = ts.fang.qp.getdizqz(i);
+                if (ffh == undefined) {
+                    ts.lzwz.push(i);
+                }
+                else if (ffh.qz.fh == ts.fh) {
+                    break;
+                }
+                else {
+                    ts.czwz.push(ffh);
+                    break;
+                }
+            }
+            //下
+            for (var i = dq + 9 ; i <= 89; i += 9) {
+                var ffh = ts.fang.qp.getdizqz(i);
+                if (ffh == undefined) {
+                    ts.lzwz.push(i);
+                }
+                else if (ffh.qz.fh == ts.fh) {
+                    break;
+                }
+                else {
+                    ts.czwz.push(ffh);
+                    break;
+                }
+            }
+            //左
+            for (var i = dq - 1 ; i % 9 >= 0; i -= 1) {
+                if (i % 9 == 8) break;
+                var ffh = ts.fang.qp.getdizqz(i);
+                if (ffh == undefined) {
+                    ts.lzwz.push(i);
+                }
+                else if (ffh.qz.fh == ts.fh) {
+                    break;
+                }
+                else {
+                    ts.czwz.push(ffh);
+                    break;
+                }
+            }
+            //右
+            for (var i = dq + 1 ; i % 9 <= 8  ; i += 1) {
+                if (i % 9 == 0) break;
+                var ffh = ts.fang.qp.getdizqz(i);
+                if (ffh == undefined) {
+                    ts.lzwz.push(i);
+                }
+                else if (ffh.qz.fh == ts.fh) {
+                    break;
+                }
+                else {
+                    ts.czwz.push(ffh);
+                    break;
+                }
+            }
+            return re;
+        }
+        //马
+        function ms1(ts) {
+            var dq = ts.dqwz;
+            var re = ts.lzwz;
+            if (dq % 9 != 0 && dq != 0 && dq - 18 >= 0 && ts.fang.qp.getdizqz(dq - 9) == undefined) {
+                re.push(dq - 19);
+            }
+            if ((dq + 1) % 9 != 0 && dq + 18 <= 89 && ts.fang.qp.getdizqz(dq + 9) == undefined) {
+                re.push(dq + 19);
+            }
+            if ((dq + 1) % 9 != 0 && dq - 18 >= 0 && ts.fang.qp.getdizqz(dq - 9) == undefined) {
+                re.push(dq - 17);
+            }
+            if (dq % 9 != 0 && dq != 0 && dq + 18 <= 89 && ts.fang.qp.getdizqz(dq + 9) == undefined) {
+                re.push(dq + 17);
+            }
+            if (dq - 9 >= 0 && dq % 9 != 0 && (dq - 1) % 9 != 0 && ts.fang.qp.getdizqz(dq - 1) == undefined) {
+                re.push(dq - 11);
+            }
+            if (dq + 9 <= 89 && (dq + 1) % 9 != 0 && (dq + 2) % 9 != 0 && ts.fang.qp.getdizqz(dq + 1) == undefined) {
+                re.push(dq + 11);
+            }
+            if (dq - 9 >= 0 && (dq + 1) % 9 != 0 && (dq + 2) % 9 != 0 && ts.fang.qp.getdizqz(dq + 1) == undefined) {
+                re.push(dq - 7);
+            }
+            if (dq + 9 <= 89 && dq % 9 != 0 && (dq - 1) % 9 != 0 && ts.fang.qp.getdizqz(dq - 1) == undefined) {
+                re.push(dq + 7);
+            }
+            ts.chiziwz();
+            return re;
+        }
+        //象
+        function ms2(ts) {
+            var dq = ts.dqwz;
+            var re = ts.lzwz;
+            var fw = {};
+            if (ts.fh == 0) {
+                fw = { 47: 1, 51: 1, 63: 1, 67: 1, 71: 1, 83: 1, 87: 1 };
+            }
+            else {
+                fw = { 38: 1, 42: 1, 26: 1, 22: 1, 18: 1, 2: 1, 6: 1 };
+            }
+            if ((dq - 20) in fw && ts.fang.qp.getdizqz(dq - 10) == undefined) {
+                re.push(dq - 20);//左上
+            }
+            if ((dq + 20) in fw && ts.fang.qp.getdizqz(dq + 10) == undefined) {
+                re.push(dq + 20);//右下
+            }
+            if ((dq - 16) in fw && ts.fang.qp.getdizqz(dq - 8) == undefined) {
+                re.push(dq - 16);//右上
+            }
+            if ((dq + 16) in fw && ts.fang.qp.getdizqz(dq + 8) == undefined) {
+                re.push(dq + 16);//左下
+            }
+            ts.chiziwz();
+            return re;
+        }
+        //士
+        function ms3(ts) {
+            var dq = ts.dqwz;
+            var re = ts.lzwz;
+            var fw = {};
+            if (ts.fh == 0) {
+                fw = { 66: 1, 68: 1, 76: 1, 84: 1, 86: 1 };
+            }
+            else {
+                fw = { 3: 1, 5: 1, 13: 1, 21: 1, 23: 1 };
+            }
+            if ((dq - 10) in fw) {
+                re.push(dq - 10);//左上
+            }
+            if ((dq + 10) in fw) {
+                re.push(dq + 10);//右下
+            }
+            if ((dq - 8) in fw) {
+                re.push(dq - 8);//右上
+            }
+            if ((dq + 8) in fw) {
+                re.push(dq + 8);//左下
+            }
+            ts.chiziwz();
+            return re;
+        }
+        //帅
+        function ms4(ts) {
+            var dq = ts.dqwz;
+            var re = ts.lzwz;
+            var fw = {};
+            if (ts.fh == 0) {
+                fw = { 66: 1, 67: 1, 68: 1, 75: 1, 76: 1, 77: 1, 84: 1, 85: 1, 86: 1 };
+            }
+            else {
+                fw = { 3: 1, 4: 1, 5: 1, 12: 1, 13: 1, 14: 1, 21: 1, 22: 1, 23: 1 };
+            }
+            if ((dq - 9) in fw) {
+                re.push(dq - 9);//上
+            }
+            if ((dq + 9) in fw) {
+                re.push(dq + 9);//下
+            }
+            if ((dq - 1) in fw) {
+                re.push(dq - 1);//左
+            }
+            if ((dq + 1) in fw) {
+                re.push(dq + 1);//右
+            }
+            ts.chiziwz();
+            return re;
+        }
+        //炮
+        function ms5(ts) {
+            var dq = ts.dqwz;
+            var re = ts.lzwz;
+            //上
+            var cc = 0;
+            for (var i = dq - 9 ; i >= 0; i -= 9) {
+                var ffh = ts.fang.qp.getdizqz(i);
+                if (ffh == undefined) {
+                    if (cc == 0) {
+                        ts.lzwz.push(i);
+                    }
+                }
+                else if (ffh.qz.fh == ts.fh) {
+                    if (cc == 0) {
+                        cc = 1;
+                        continue;
+                    }
+                    else {
+                        break;
+                    }
+                }
+                else {
+                    if (cc == 0) {
+                        cc = 1;
+                        continue;
+                    }
+                    else {
+                        ts.czwz.push(ffh);
+                        break;
+                    }
+                }
+            }
+            //下
+            cc = 0;
+            for (var i = dq + 9 ; i <= 89; i += 9) {
+                var ffh = ts.fang.qp.getdizqz(i);
+                if (ffh == undefined) {
+                    if (cc == 0) {
+                        ts.lzwz.push(i);
+                    }
+                }
+                else if (ffh.qz.fh == ts.fh) {
+                    if (cc == 0) {
+                        cc = 1;
+                        continue;
+                    }
+                    else {
+                        break;
+                    }
+                }
+                else {
+                    if (cc == 0) {
+                        cc = 1;
+                        continue;
+                    }
+                    else {
+                        ts.czwz.push(ffh);
+                        break;
+                    }
+                }
+            }
+            //左
+            cc = 0;
+            for (var i = dq - 1 ; i % 9 >= 0; i -= 1) {
+                if (i % 9 == 8) break;
+                var ffh = ts.fang.qp.getdizqz(i);
+                if (ffh == undefined) {
+                    if (cc == 0) {
+                        ts.lzwz.push(i);
+                    }
+                }
+                else if (ffh.qz.fh == ts.fh) {
+                    if (cc == 0) {
+                        cc = 1;
+                        continue;
+                    }
+                    else {
+                        break;
+                    }
+                }
+                else {
+                    if (cc == 0) {
+                        cc = 1;
+                        continue;
+                    }
+                    else {
+                        ts.czwz.push(ffh);
+                        break;
+                    }
+                }
+            }
+            //右
+            cc = 0;
+            for (var i = dq + 1 ; i % 9 <= 8  ; i += 1) {
+                if (i % 9 == 0) break;
+                var ffh = ts.fang.qp.getdizqz(i);
+                if (ffh == undefined) {
+                    if (cc == 0) {
+                        ts.lzwz.push(i);
+                    }
+                }
+                else if (ffh.qz.fh == ts.fh) {
+                    if (cc == 0) {
+                        cc = 1;
+                        continue;
+                    }
+                    else {
+                        break;
+                    }
+                }
+                else {
+                    if (cc == 0) {
+                        cc = 1;
+                        continue;
+                    }
+                    else {
+                        ts.czwz.push(ffh);
+                        break;
+                    }
+                }
+            }
+            return re;
+        }
+        //兵
+        function ms6(ts) {
+            var dq = ts.dqwz;
+            var re = ts.lzwz;
+            if (ts.fh == 0 && dq - 9 >= 0) {
+                re.push(dq - 9);//上
+            }
+            if (ts.fh == 1 && dq + 9 <= 89) {
+                re.push(dq + 9);//下
+            }
+            if (dq % 9 != 0 && dq != 0) {
+                re.push(dq - 1);//左
+            }
+            if ((dq + 1) % 9 != 0) {
+                re.push(dq + 1);//右
+            }
+            ts.chiziwz();
+            return re;
+        }
+        //E右键放下提起的棋子
+        function qzdown(e) {
+            qp.cldiclick();
+            qp.clqzclick();
+            qp.ydf == 0 ? qp.hong.setqzclick(tiqiqz) : qp.hei.setqzclick(tiqiqz);
+            if (e.button == 0) {
+                e.target.click = tiqiqz;
+                e.target.click();
+            }
+        }
+        //E可以被吃棋子的点击事件
+        function beichiqz(e) {
+            var ts = e.target;
+            if (ts.id == "qz14") {
+                al("红方胜");
+                document.form1.submit();
+            }
+            else if (ts.id == "qz085") {
+                al("黑方胜");
+                document.form1.submit();
+            }
+            var d_i = ts.qz.getqzzdi();
+            qp.ydf == 0 ? qp.delz0.appendChild(ts) : qp.delz1.appendChild(ts);
+            ts.dqwz = -1;
+            ts.qz.huo = false;
+            d_i.appendChild(qp.tq_qz.div);
+            qp.tq_qz.dqwz = pi(d_i.id.replace("div", ""));
+            qp.jiaohuan();
+        }
+        //E空底落下棋子 并换方
+        function luoxiaqz(e) {
+            var ts = e.target;
+            ts.appendChild(qp.tq_qz.div);
+            qp.tq_qz.dqwz = pi(ts.id.replace("div", ""));
+            qp.jiaohuan();
+        }
+        //E提起棋子
+        function tiqiqz(e) {
+            var ts = this;
+            //if (ts.qz.fang.qp.ydf != ts.qz.fh) return;
+            ts.qz.fang.qp.clqzclick();
+            ts.qz.fang.qp.tq_qz = ts.qz;//设置当前提起的棋子
+            ts.style.borderColor = "#00ff21";
+            //ts.qz.lzwz = ts.qz.luoziwz();
+            //ts.qz.czwz = ts.qz.chiziwz();
+            //空底绑定落子事件
+            for (var i = 0 ; i < ts.qz.lzwz.length; i++) {
+                qp.di[ts.qz.lzwz[i]].onclick = luoxiaqz;
+                qp.di[ts.qz.lzwz[i]].style.borderColor = "red";
+            }
+            //对方子绑定被吃事件
+            for (var i = 0 ; i < ts.qz.czwz.length; i++) {
+                ts.qz.czwz[i].qz.setclick_1(beichiqz);
+                ts.qz.czwz[i].style.borderColor = "black";
+            }
+            ts.qz.fang.setqzclick(qzdown);
+        }
+
+        //B棋子基类
+        function getqz(fang, name, wei, mox) {
+            var qz = new Object();
+            qz.fang = fang;//所属的红黑方对象
+            qz.name = name;//棋子名
+            qz.fh = fang.fh;//方号
+            qz.mox = mox;//棋子模型编号
+            var d = document.createElement('div');//创建棋子的div
+            d.className = "d3 qz qz" + fang.fh;
+            d.id = "qz" + qz.fh + wei;
+            d.innerHTML = qz.name;
+            qz.div = d;//绑定棋子的div
+            qz.div.qz = qz;//div中绑定棋子对象
+            fang.qp.di[wei].appendChild(qz.div);//添加到方
+            qz.huo = true;//棋子生死
+            qz.dqwz = wei;//当前位置
+            qz.lzwz = [];//可以移动到的位置
+            qz.czwz = [];//能吃到对方子的div
+            //方法
+            qz.kezou = function (mox) {//F根据模式分支选择
+                switch (mox) {
+                    case 0:
+                        return ms0(this);
+                    case 1:
+                        return ms1(this);
+                    case 2:
+                        return ms2(this);
+                    case 3:
+                        return ms3(this);
+                    case 4:
+                        return ms4(this);
+                    case 5:
+                        return ms5(this);
+                    case 6:
+                        return ms6(this);
+                }
+            }
+            qz.kechi = function (mox) {//F根据模式选择分支
+
+            }
+            qz.luoziwz = function () {//F获取落子位置 底的编号数组
+                this.lzwz = [];
+                this.czwz = [];
+                this.kezou(qz.mox);
+                return this.lzwz;
+            }
+            qz.chiziwz = function () {//F获取能吃对方子位置 对方子的div数组
+                var re = this.lzwz;
+                var le = re.length;
+                var re1 = [];
+                for (var i = 0 ; i < re.length; i++) {
+                    re1[i] = re[i];
+                }
+                var bh = 0;
+                for (var i = 0 ; i < le; i++) {
+                    var ffh = this.fang.qp.getdizqz(re1[i]);
+                    if (ffh == undefined) {
+                        continue;
+                    }
+                    else if (ffh.qz.fh == this.fh) {
+                        re.splice(i - bh++, 1);
+                    }
+                    else {
+                        this.czwz.push(ffh);
+                        re.splice(i - bh++, 1);
+                    }
+                }
+                return this.czwz;
+            }
+            qz.getqzzdi = function () {//F棋子所在的底
+                return this.div.parentNode;
+            }
+            qz.setclick = function () {//棋子 绑定提起事件
+                this.setclick_1(tiqiqz);
+            }
+            qz.setclick_1 = function (en) {//棋子 绑定给定事件
+                if (this.huo) this.div.onclick = en;
+            }
+            qz.clclick = function () {//棋子 撤除提起事件
+                this.div.onclick = null;
+                this.div.style.borderColor = "#00ffff";
+            }
+            return qz;
+        }
+        //F获取一方16棋子对象数组
+        function getqzarr(fang, h) {
+            var qzar = [];
+            var nam = [["车", "马", "象", "士", "帅", "士", "象", "马", "车", "炮", "炮", "兵", "兵", "兵", "兵", "兵"],
+                ["車", "馬", "相", "仕", "將", "仕", "相", "馬", "車", "炮", "炮", "卒", "卒", "卒", "卒", "卒"]];
+            var wei = [[81, 82, 83, 84, 85, 86, 87, 88, 89, 64, 70, 54, 56, 58, 60, 62],
+                [0, 1, 2, 3, 4, 5, 6, 7, 8, 19, 25, 27, 29, 31, 33, 35]];
+            var mox = [0, 1, 2, 3, 4, 3, 2, 1, 0, 5, 5, 6, 6, 6, 6, 6];
+            for (var i = 0 ; i < 16; i++) {
+                var c1 = getqz(fang, nam[h][i], wei[h][i], mox[i]);
+                qzar.push(c1);
+            }
+            return qzar;
+        }
+        //B红方黑方对象
+        function getfang(qp, h) {
+            var fang = new Object();
+            //if (qp == undefined) fang.qp = getqp("box");
+            fang.qp = qp;//所属的棋盘对象
+            fang.name = h == 0 ? "红方" : "黑方";//方名
+            fang.fh = h;//方号
+            fang.qzar = getqzarr(fang, h);//获取16子
+            //方法
+            fang.setqzclick = function (en) {//方中所有棋子 绑定提起事件
+                for (var i = 0 ; i < this.qzar.length; i++) {
+                    this.qzar[i].setclick_1(en);
+                }
+            }
+            fang.clqzclick = function (en) {//方中所有棋子 撤除提起事件
+                for (var i = 0 ; i < this.qzar.length; i++) {
+                    this.qzar[i].clclick();
+                }
+            }
+            fang.luoziwz = function () {//F方的所有子更新落吃位置
+                for (var i = 0 ; i < this.qzar.length; i++) {
+                    this.qzar[i].luoziwz();
+                }
+            }
+            fang.benfwz = function () {//F本方的所有子当前位置
+                var re = [];
+                for (var i = 0 ; i < this.qzar.length; i++) {
+                    re.push(this.qzar[i].dqwz);
+                }
+                fang.bfwz = re;
+                return re;
+            }
+            fang.duifwz = function () {//F对方的所有子当前位置
+                var re = [];
+                var duif = this === fang.qp.hong ? fang.qp.hei : fang.qp.hong;
+                for (var i = 0 ; i < duif.qzar.length; i++) {
+                    re.push(duif.qzar[i].dqwz);
+                }
+                fang.dfwz = re;
+                return re;
+            }
+            return fang;
+        }
+        //B棋盘对象
+        function getqp(box) {
+            var qp = new Object();
+            qp.box = A(box);//最外div
+            qp.box.innerHTML = "";
+            for (var i = 0 ; i < 90; i++) {
+                var d = document.createElement('div');
+                d.className = "di";
+                d.id = "div" + i;
+                d.qp = qp;
+                //d.setAttribute("valign", "center");
+                qp.box.appendChild(d);
+            }
+            qp.di = qp.box.childNodes;//90个位置div
+            qp.hong = getfang(qp, 0); //红方对象
+            qp.hei = getfang(qp, 1);//黑方对象
+            qp.ydf = 1;//行动方
+            qp.tq_qz = null;//当前提起的棋子
+            qp.sp_f = A("sp_f");//提示器
+            qp.delz0 = A("delz0");//死子区
+            qp.delz1 = A("delz1");//死子区
+            //方法
+            qp.clqzclick = function () {//F清除所有棋子的点击事件
+                this.hei.clqzclick();
+                this.hong.clqzclick();
+            }
+            qp.getdizqz = function (i) {//F底中存在的棋子
+                return this.di[i].childNodes[0];
+            }
+            qp.cldiclick = function () {//F清除所有底的点击事件
+                for (var i = 0 ; i < this.di.length; i++) {
+                    this.di[i].onclick = null;
+                    this.di[i].style.borderColor = "#ffd800";
+                }
+            }
+            qp.luoziwz = function () {//F所有子更新落吃位置
+                this.hong.luoziwz();
+                this.hei.luoziwz();
+            }
+            qp.jiaohuan = function () {//F交换走棋方
+                this.cldiclick();
+                this.clqzclick();
+                this.ydf = this.ydf == 0 ? 1 : 0;
+                if (this.ydf == 0) {
+                    this.sp_f.style.color = "red";
+                    this.sp_f.innerHTML = "红方";
+                    this.hong.setqzclick(tiqiqz);
+                }
+                else {
+                    this.sp_f.style.color = "black";
+                    this.sp_f.innerHTML = "黑方";
+                    this.hei.setqzclick(tiqiqz);
+                }
+                this.luoziwz();
+                this.tq_qz = null;
+            }
+            //初始化
+            //qp.hong.luoziwz();//hong方的所有子更新落吃位置
+            //qp.hei.luoziwz();//hei方的所有子更新落吃位置
+            return qp;
+        }
+        //E窗体大小改变事件
+        function winresize() {
+            qp.box.style.top = (viewtblr("bg").top + 50) + "px";
+            qp.box.style.left = (viewtblr("bg").left + 53) + "px";
+            qp.delz0.style.top = (viewtblr(qp.box).top + 0) + "px";
+            qp.delz0.style.left = (viewtblr(qp.box).left - 90) + "px";
+            qp.delz1.style.top = (viewtblr(qp.box).top + 0) + "px";
+            qp.delz1.style.left = (viewtblr(qp.box).left + qp.box.clientWidth) + "px";
+        }
+        //E初始化
+        function load() {
+            qp = getqp("box");
+            qp.jiaohuan();
+            winresize();
+            window.onresize = winresize;
+            document.onmouseup = function (e) {
+                if (e.button == 2) {
+                    qzdown(e);
+                    //e.preventDefault();
+                }
+            }
+        }
+        //测试
+        function aaabbb() {
+            document.form1.submit();
+        }
+    </script>
+</head>
+<body id="body1" onload="load();" oncontextmenu="return false;">
+<form id="form1" name="form1">
+    <div align="center" style="border: 1px solid #00ff21;">
+        <a href="../game2/xqi.html">ie10象棋</a> 
+        <a href="../game1/she.html">贪吃蛇</a> 
+        <a href="../Default.html">返回</a> 
+        <br />ie9
+    </div>
+    <div align="center" style="background-color: #c8c193;">
+        <div id="bgdiv">
+            <img id="bg" alt="aa" src="bg.jpg" />
+        </div>
+        <div id="delz0" class="delz" style="float: left;"></div>
+        <div id="delz1" class="delz" style="float: right;"></div>
+        <div id="box">
+        </div>
+        <br />
+        <span id="sp_f" style="color: red; font-family: 隶书; font-size: 40px;">红方</span>
+        <br />
+        <input id="Submit1" type="submit" value="刷新" />
+        <input id="Button1" type="button" value="测试" onclick="aaabbb()" />
+        <br />
+    </div>
+</form>
+</body>
+</html>
+<script type="text/javascript">
+    //var qp_di = A("box").childNodes;
+</script>

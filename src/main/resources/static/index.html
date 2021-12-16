@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>墨折羽象棋</title>
+
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .left-case{
+            margin-left: 100px;
+        }
+        hr{
+            height: 6px;
+            size: 6px;
+            color: #9e2599;
+            width: 100%;
+        }
+        #boardBox{
+            width: 513px;
+            height: 570px;
+            background-image: url("img/Board1.png");
+            position: absolute;
+            line-height:0px;
+            background-color: #ab9772;
+
+        }
+        .pieces{
+            width: 57px;
+            height: 57px;
+            box-sizing: border-box;
+            /*border:1px solid red;*/
+            position: relative;
+            display: inline-block;
+        }
+        .pieceBack{
+            /*border: 1px solid red;*/
+            height: 600px;
+        }
+        .chessTimeShow{
+            font-size: 100px;
+            display: inline-block;
+        }
+        .coloerName{
+            writing-mode:vertical-lr;
+            font-size:50px;
+            display: inline-block;
+        }
+        .chatFrame{
+            /*border: 1px solid black;*/
+            background-color: #f1f1f1;
+            height: 400px;
+        }
+        .userFrame{
+
+            /*border: 1px solid black;*/
+            height: 600px;
+        }
+        textarea {
+            resize: none;
+            border: none;
+            outline: none
+        }
+        img{
+            border-radius: 5px;
+            height: 50px;
+            width: 50px;
+        }
+        #receiverTitle{
+            /*position: absolute;*/
+            /*left: 0px;*/
+            /*top:0px;*/
+        }
+        .btnAddInvitation{
+            position: fixed; bottom: 20px; right: 10vw;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<nav class="navbar navbar-default">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://localhost:8080/CP">墨折羽</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav  nav-pills navbar-left left-case" >
+                <li><a href="#">首页</a> </li>
+                <li><a href="#">对战</a> </li>
+                <li><a href="#">讨论</a> </li>
+                <li><a href="#">咨询</a> </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://localhost:8080/CP/login.html" id="nav_li_login">登录</a></li>
+                <li class="dropdown" id="nav_li_down" style="display: none">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                       role="button" aria-haspopup="true" aria-expanded="false" id="userNameShow">用户名 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" id="btnPersonage">个人中心</a></li>
+                        </li><li role="separator" class="divider"></li>
+                        <li><a href="#" id="nav_li_a_exit">退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<!--index显示-->
+<div class="container">
+    <div class="row pageBody" >
+        <ul class="list-group col-md-6" id="announcementList">
+            <a class="list-group-item">祝贺各位国庆快乐</a>
+            <a class="list-group-item">10月23号举办线上比赛</a>
+            <a class="list-group-item">花木杯第六届全国象棋大棋圣战落幕 王天一夺冠</a>
+            <a class="list-group-item">2021年“亳州杯”全国象棋快棋锦标赛超快棋女子组</a>
+            <a class="list-group-item">2021年粤港澳大湾区象棋邀请赛闭幕 业余团体组深圳一队夺冠</a>
+            <a class="list-group-item">2021全国象棋女甲联赛落幕 北京队勇夺六冠王</a>
+            <a class="list-group-item">王天一再次获胜</a>
+            <a class="list-group-item">2021年“周庄杯”国际城市象棋网络团体赛开枰</a>
+            <a class="list-group-item">严令禁止使用电脑Al与人下棋</a>
+            <a class="list-group-item">王天一是否能够再次获胜</a>
+        </ul>
+<!--        <ul class="list-group col-md-6" id="announcementList">-->
+<!--            <li class="list-group-item">祝贺各位国庆快乐</li>-->
+<!--            <li class="list-group-item">10月23号举办线上比赛</li>-->
+<!--            <li class="list-group-item">花木杯第六届全国象棋大棋圣战落幕 王天一夺冠</li>-->
+<!--            <li class="list-group-item">2021年“亳州杯”全国象棋快棋锦标赛超快棋女子组</li>-->
+<!--            <li class="list-group-item">2021年粤港澳大湾区象棋邀请赛闭幕 业余团体组深圳一队夺冠</li>-->
+<!--            <li class="list-group-item">2021全国象棋女甲联赛落幕 北京队勇夺六冠王</li>-->
+<!--            <li class="list-group-item">王天一再次获胜</li>-->
+<!--            <li class="list-group-item">2021年“周庄杯”国际城市象棋网络团体赛开枰</li>-->
+<!--            <li class="list-group-item">严令禁止使用电脑Al与人下棋</li>-->
+<!--            <li class="list-group-item">王天一是否能够再次获胜</li>-->
+<!--        </ul>-->
+        <div class="col-md-6">
+            <img src="photos/11.png" style="height: 400px" class="img-rounded  col-xs-12">
+        </div>
+        <img src="photos/12.jpg" style="height: 720px;" class="img-rounded  col-xs-12">
+    </div>
+</div>
+
+
+<!--chess 显示-->
+<div class="container ">
+    <div class="row pageBody ">
+        <div class="board" id="boardBox">
+            <!--            <div class="pieces"></div>   -->
+        </div>
+
+
+
+        <div class="col-md-5 col-md-offset-7 pieceBack " >
+
+
+            <div class="col-md-10 col-md-offset-1 boardSelectStatus">
+                <div class="btn-group" style="display: inline-block;">
+                    <button type="button" class="btn btn-default dropdown-toggle"
+                            id="btnUserDownMenu"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        用户对战<span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" id="userDownMenu">
+                    </ul>
+                </div>
+                <a class="btn btn-default"
+                   data-toggle="modal" data-target="#boardInput"
+                   onclick="btnInputBoardOnClick" id="btnInputBoard">导入棋局</a>
+
+                <div style="display: inline-block;" id="radioBtnGroup">
+                    <label class="radio-inline">
+                        <input type="radio" name="boardType" checked id="inlineCheckbox1" data-name="正常对战" value=0 > 正常对战
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio"  name="boardType" id="inlineCheckbox2" data-name="指导棋" value=1 > 指导棋
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="boardType"  id="inlineCheckbox3"data-name="棋局研究"  value=2 > 棋局研究
+                    </label>
+                </div>
+                <a class="btn btn-default" id="btnBegin"
+                   data-toggle="modal" data-target="#modalShow" >开始对战</a>
+            </div>
+
+            <div class="col-md-10 col-md-offset-1 boardSelectStatus">
+                <div class="row">
+                    <span style="color: red;">红方：</span><span>--</span>
+                </div>
+                <div class="row">
+                    <span>黑方：</span><span>--</span>
+                </div>
+                <div class="row">
+                    <span>对局模式：</span><span>--</span>
+                </div>
+            </div>
+
+            <div class="col-md-10 col-md-offset-1 boardSelectStatus">
+                <p style="font-size: 30px;">请先进行登录</p>
+            </div>
+
+
+
+
+
+            <div class="row">
+                <div class="coloerName" style="color: red;">红方</div>
+                <div class="chessTimeShow"  id="rTime" >10:00</div>
+            </div>
+            <div class="col-md-9" style="height: 180px; margin-right: 100px; ">
+
+
+                <div class="" style="height: 50px;
+                width: 100%;
+                /*position: fixed;*/
+                /*right: 50px;*/
+                /*bottom: 10px;*/
+
+                /*color: #6f016f;*/
+                display: none;
+                /*margin: 0px auto;*/
+                margin-top: 65px;
+                color: black;
+                font-size: 40px;
+                /*text-shadow: 2px 2px 10px black;*/
+                text-shadow: 1px 1px 30px black;
+                        "
+                 id="walkHintBox"><p style="text-align: center;  ">无效走步</p></div>
+
+
+            </div>
+            <div class="row">
+                <div class="coloerName" >  黑方</div>
+                <div class="chessTimeShow"  id="BTime" >10:00</div>
+            </div>
+
+
+            <div class="col-md-10 col-md-offset-1 userUseBtn"style="padding-top: 10px;">
+                <a class="btn btn-default" onclick="takeBack()" id="btnTakeBack">悔棋</a>
+                <a class="btn btn-default" onclick="getPeace()" id="btnSueForPeace">求和</a>
+                <a class="btn btn-default" onclick="giveUpClick()" id="btnGiveUp">认输</a>
+                <a class="btn btn-default" id="btnOutputBoard">导出棋局</a>
+            </div>
+            <div id="refuseBtnGroup" style="display: none;">
+                <a class="btn btn-default" onclick="beforeWalk()" >上一步</a>
+                <a class="btn btn-default" onclick="lastWalk()" >下一步</a>
+                <a class="btn btn-default" onclick="newBoard()" >结束</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--conversation显示-->
+<div class="container">
+
+
+    <div class="row pageBody " id="conversationBody" >
+
+        <a class="btn btn-default btnAddInvitation" href="http://localhost:8080/CP/invitation/add">添加帖子</a>
+
+        <div class="row rowFormat invitation_big" >
+            <div class="col-md-10 col-md-offset-1">
+                <div class="jumbotron " style="padding-left: 30px;padding-right: 30px;">
+                    <div class="row">
+                        <h1 class="center-block invitation_title">__</h1>
+                    </div>
+                    <div class="row">
+                        <text class="invitation_body">
+                            __
+                        </text>
+                    </div>
+                    <div class="row" >
+                        <hr/>
+                    </div>
+                    <div class="row">
+                        <span class="invitation_creationTime">____.__.__ </span><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>
+                        <span class="invitation_pageView"> 观看人数：__ 人</span><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>
+                        <span> 评论数：__人</span><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>
+                        <span><a class="btn btn-primary btn-md pull-right" href="#"  target="_blank" role="button">阅读全文</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <hr/>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+<!--consult 显示-->
+<div class="container">
+
+
+  <div class="col-md-12">
+      <div class="col-md-8 " style="height: 600px;">
+          <div class="col-md-12 chatFrame" style="overflow: auto; position: relative;" id="chatWidow">
+              <h5 class="text-center" id="receiverTitle"></h5>
+
+          </div>
+          <div class="col-md-12" style=" height: 200px; border:1px solid black;">
+              <textarea style="height: 80%;width: 100%;" id="userMsgString"></textarea>
+              <a class="btn disabled" style="float: right;" onclick="userNewsSend()" id="btnSend">发送</a>
+          </div>
+      </div>
+      <div class="col-md-4 userFrame" >
+          <h3>用户列表</h3>
+          <ul class="list-group " id="userList">
+              <a href="#" class="list-group-item disabled" data-name="MOSHEYUALL">全体用户 </a>
+              <a href="#" class="list-group-item disabled"  data-name="MOSHEYUADMIN">工作人员 </a>
+              <hr>
+              <a href="#" class="list-group-item">墨折羽 </a>
+          </ul>
+
+      </div>
+  </div>
+
+
+
+
+
+</div>
+
+
+
+<div class="modal fade" id="boardInput" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">导入布局</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">布局:</label>
+                    <input type="text" class="form-control" name="boardString" id="strInputBoard" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="btnInputBoardSure">导入</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="modalShow" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="titleStartWar">开始对战</h4>
+            </div>
+            <div class="modal-body" style="height: 100px;">
+                <div class="form-group startWarOne">
+                    <label  class="col-md-2 control-label">交战方：</label>
+                    <div class="col-sm-10" >
+                        <p class="" id="startWarUserName">mosheyu</p>
+                    </div>
+                </div>
+                <div class="form-group startWarThree">
+                    <label  class="col-md-2 control-label">交战方式：</label>
+                    <div class="col-sm-10" >
+                        <p class="" data-boardType = 0  id="startWarStatus">正常对局</p>
+                    </div>
+                </div>
+            </div>
+            <div class="startWarTwo" style="display: none;">
+<!--            <div class="" style="display: block;">-->
+                <img class="center-block" style="height: 100px;width: 100px;" src="photos/loadStatus.gif">
+            </div>
+            <div class="modal-footer btnStartWarModel">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="btnStartWarOnClick()" id="btnStartWar">约战</button>
+            </div>
+            <div class="modal-footer btnStartWarModel" style="display: none;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="hintShow" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="height: 100px; width: 300px; border: 5px red solid;" id="hintShowDiv">
+                <p class="" style="line-height: 70px;font-size: 30px;text-align: center; "id="hintShowText" >用户暂未登录</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="startWarSelect" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+<!--                <button type="button" class="close"-->
+<!--                        data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                <h4 class="modal-title" >好友约战</h4>
+            </div>
+            <div class="modal-body" style="height: 100px;">
+                <div class="form-group">
+                    <label  class="col-md-2 control-label">约战方：</label>
+                    <div class="col-sm-10" >
+                        <p class="" id="startWarSender">--</p>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <label  class="col-md-2 control-label">交战方式：</label>
+                    <div class="col-sm-10" >
+                        <p class="" id="startWarType">正常对局</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer  btnStartWarModel">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnRefuseStartWar">拒绝</button>
+                <button type="button" class="btn btn-default"  data-dismiss="modal" id="btnAgreeStartWar">接受</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="getPeaceModel" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--                <button type="button" class="close"-->
+                <!--                        data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                <h4 class="modal-title" >求和</h4>
+            </div>
+
+            <div class="modal-footer  btnStartWarModel">
+                <button type="button" class="btn btn-default" onclick="refusePeace()" data-dismiss="modal" >拒绝</button>
+                <button type="button" class="btn btn-default"  onclick="agreePeace()" data-dismiss="modal" >接受</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+</body>
+
+<!--<link rel="stylesheet" href="http://localhost:8080/CP/bootstrap/css/bootstrap.min.css">-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/jquery.cookie.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/public.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/websocket.js"></script>-->
+<!--<script type="text/javascript" src="http://localhost:8080/CP/js/index.js"></script>-->
+
+
+
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/pieces.css">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="js/public.js"></script>
+<script type="text/javascript" src="js/pieceCheck.js"></script>
+<script type="text/javascript" src="js/websocket.js"></script>
+<script type="text/javascript" src="js/game.js"></script>
+<script type="text/javascript" src="js/signalProcessing.js"></script>
+
+<script type="text/javascript" src="js/index.js"></script>
+
+
+<script>
+
+    //初始化导航条的单击方法
+    active_nav();
+    document.querySelectorAll("nav ul:first-child.nav.navbar-nav li a")[0].click();
+
+
+
+
+</script>
+</html>
